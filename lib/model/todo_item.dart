@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class TodoItem extends StatelessWidget {
-  String _itemName = "";
-  String _itemCreated = "";
-  int _id = 0;
+  String? _itemName;
+  String? _itemCreated;
+  int? _id;
 
   TodoItem(this._itemName, this._itemCreated);
 
@@ -29,11 +29,11 @@ class TodoItem extends StatelessWidget {
     this._id = map['id'];
   }
 
-  String get itemName => _itemName;
+  String get itemName => _itemName ?? "";
 
-  String get itemCreated => _itemCreated;
+  String get itemCreated => _itemCreated ?? "";
 
-  int get id => _id;
+  int get id => _id ?? 0;
 
   set itemName(String value) {
     _itemName = value;
@@ -50,7 +50,7 @@ class TodoItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               new Text(
-                _itemName,
+                "$_itemName",
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,

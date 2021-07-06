@@ -8,11 +8,7 @@ import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
   DatabaseHelper._privateConstructor();
-
   DatabaseHelper();
-
-  static final DatabaseHelper _instance = DatabaseHelper._privateConstructor();
-
   final String databaseName = "mydb.db";
   final String tableName = "todoTable";
   final String columnId = "id";
