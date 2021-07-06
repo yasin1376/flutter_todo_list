@@ -1,4 +1,4 @@
-# flutter_todo_list
+# Flutter Todo List
 
 A new Flutter application.
 
