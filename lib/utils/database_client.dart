@@ -9,6 +9,8 @@ import 'package:sqflite/sqflite.dart';
 class DatabaseHelper {
   DatabaseHelper._privateConstructor();
 
+  DatabaseHelper();
+
   static final DatabaseHelper _instance = DatabaseHelper._privateConstructor();
 
   final String databaseName = "mydb.db";
@@ -17,15 +19,9 @@ class DatabaseHelper {
   final String columnItemName = "itemName";
   final String columnItemCreated = "itemCreated";
 
-  static Database _db;
+  static Database? _db;
 
-  Future<Database> get db async {
-    if (_db != null) {
-      return _db;
-    }
-    _db = await initDb();
-    return _db;
-  }
+  Future<Database> get db async => _db ??= await initDb();
 
   DatabaseHelper.internal();
 
@@ -36,12 +32,9 @@ class DatabaseHelper {
     return ourDb;
   }
 
-  DatabaseHelper internal() {}
-
   void _onCreate(Database db, int version) async {
     await db.execute(
         "CREATE TABLE $tableName($columnId INTEGER PRIMARY KEY, $columnItemName TEXT, $columnItemCreated TEXT)");
-    print("Tabale created");
   }
 
   Future<int> saveItem(TodoItem item) async {
@@ -58,17 +51,11 @@ class DatabaseHelper {
     return result;
   }
 
-  Future<int> getCount() async {
-    var dbClient = await db;
-    return Sqflite.firstIntValue(
-        await dbClient.rawQuery("SELECT COUNT(*) FROM $tableName"));
-  }
-
   Future<TodoItem> getItem(int id) async {
     var dbClient = await db;
     var result =
         await dbClient.rawQuery("SELECT * FROM $tableName WHERE id = $id");
-    if (result.length == 0) return null;
+    if (result.length == 0) return TodoItem("", "");
     return new TodoItem.fromMap(result.first);
   }
 
@@ -88,6 +75,4 @@ class DatabaseHelper {
     var dbClient = await db;
     return dbClient.close();
   }
-
-  DatabaseHelper();
 }
